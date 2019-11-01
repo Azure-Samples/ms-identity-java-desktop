@@ -64,7 +64,13 @@ To successfully use this sample, you need a working installation of [Java](http:
 From your shell or command line:
 
 ```shell
-`git clone https://github.com/Azure-Samples/active-directory-java-native-headless-v2.git `
+`git clone https://github.com/Azure-Samples/ms-identity-java-desktop.git `
+```
+
+Go to `active-directory-java-native-headless-v2` folder
+
+```shell
+cd active-directory-java-native-headless-v2
 ```
 
 ### Step 3:  Register the sample with your Azure Active Directory tenant
