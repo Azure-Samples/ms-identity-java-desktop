@@ -1,13 +1,3 @@
----
-page_type: sample
-languages:
-- java
-products:
-- azure
-description: "A desktop application in Java calling Microsoft Graph API."
-urlFragment: identity-java-api-graph
----
-
 # A desktop application in Java calling Microsoft Graph API
 
 <!-- 
