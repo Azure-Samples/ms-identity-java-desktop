@@ -1,14 +1,14 @@
 ---
 page_type: sample
 languages:
-- csharp
+- java
 products:
-- dotnet
-description: "Add 150 character max description"
-urlFragment: "update-this-to-unique-url-stub"
+- azure
+description: "A desktop application in Java calling Microsoft Graph API."
+urlFragment: identity-java-api-graph
 ---
 
-# Official Microsoft Sample
+# A desktop application in Java calling Microsoft Graph API
 
 <!-- 
 Guidelines on README format: https://review.docs.microsoft.com/help/onboard/admin/samples/concepts/readme-template?branch=master
