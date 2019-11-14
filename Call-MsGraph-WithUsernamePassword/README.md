@@ -6,7 +6,7 @@ languages:
 products:
 - azure-active-directory
 description: "Java console application letting users sign-in with username/password to call Microsoft Graph API"
-urlFragment: Call-MsGraph-WithUsernamePassword
+urlFragment: call-msgraph-with-username-password
 ---
 
 # Java console application letting users sign-in with username/password to call Microsoft Graph API
