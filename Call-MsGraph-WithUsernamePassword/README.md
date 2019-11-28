@@ -1,15 +1,21 @@
 ---
+services: active-directory
+platforms: Java
+endpoint: Microsoft identity platform
 page_type: sample
 languages:
-- powershell
-- java
+  - Java
+author: ramya25
 products:
-- azure-active-directory
-description: "Java console application letting users sign-in with username/password to call Microsoft Graph API"
+  - azure
+  - azure-active-directory
+  - Java
+  - office-ms-graph
+description: "Java console application letting users sign-in with their username/password and call Microsoft Graph API"
 urlFragment: call-msgraph-with-username-password
 ---
 
-# Java console application letting users sign-in with username/password to call Microsoft Graph API
+# Java console application letting users sign-in with username/password and call Microsoft Graph API
 
 ## About this sample
 
@@ -63,14 +69,9 @@ To successfully use this sample, you need a working installation of [Java](http:
 
 From your shell or command line:
 
-```shell
-`git clone https://github.com/Azure-Samples/ms-identity-java-desktop.git `
-```
-
-Go to `Call-MsGraph-WithUsernamePassword` folder
-
-```shell
-cd Call-MsGraph-WithUsernamePassword
+```Shell
+git clone https://github.com/Azure-Samples/ms-identity-java-desktop.git
+cd "Call-MsGraph-WithUsernamePassword"
 ```
 
 ### Step 3:  Register the sample with your Azure Active Directory tenant
@@ -186,6 +187,9 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 
 For more information, see MSAL4J [conceptual documentation](https://github.com/AzureAD/microsoft-authentication-library-for-java/wiki).
 
-For more information on how add additional permissions to use Microsoft Graph notifications, see [API permissions](https://docs.microsoft.com/en-us/graph/notifications-integration-app-registration#api-permissions)
+- [Quickstart: Configure a client application to access web APIs](https://docs.microsoft.com/azure/active-directory/develop/quickstart-configure-app-access-web-apis)
+- [Understanding Azure AD application consent experiences](https://docs.microsoft.com/azure/active-directory/develop/application-consent-experience)
+- [Understand user and admin consent](https://docs.microsoft.com/azure/active-directory/develop/howto-convert-app-to-be-multi-tenant#understand-user-and-admin-consent)
+- About how OAuth 2.0 protocols work in this scenario and other scenarios, see [Authentication Scenarios for Azure AD](http://go.microsoft.com/fwlink/?LinkId=394414).
 
 For more information about how OAuth 2.0 protocols work in this scenario and other scenarios, see [Authentication Scenarios for Azure AD](http://go.microsoft.com/fwlink/?LinkId=394414).

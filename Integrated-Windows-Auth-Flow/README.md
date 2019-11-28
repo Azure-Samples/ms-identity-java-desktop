@@ -1,21 +1,27 @@
 ---
+services: active-directory
+platforms: Java
+endpoint: Microsoft identity platform
 page_type: sample
 languages:
-- java
+  - Java
 author: ramya25
 products:
-- azure-active-directory
-description: "This sample demonstrates how to use MSAL4J from apps that run on a domain joined or AAD joined Windows machine."
-urlFragment: ms-identity-java-desktop
+  - azure
+  - azure-active-directory
+  - Java
+  - office-ms-graph
+description: "This sample demonstrates how to use MSAL4J to sign-in users using windows Integrated Auth (WIA) in apps that run on a domain joined or AAD joined Windows machine."
+urlFragment: Integrated-Windows-Auth- Flow
 ---
 
-# Invoking an API protected by Microsoft identity platform with Integrated Windows Authentication, on a Windows domain joined or AAD joined machine
+# Invoking an API protected by Microsoft identity platform with users signed-in with Integrated Windows Authentication, on a Windows domain joined or AAD joined machine
 
 ## About this sample
 
 ### Overview
 
-This sample demonstrates how to use MSAL4J for apps that run on a domain joined or AAD joined Windows machine. It enables these apps to:
+This sample demonstrates how to use MSAL4J for apps running on a domain joined or AAD joined Windows machine that wish to authenticate using Windows Integrated Authentication  It enables these apps to:
 
 - Authenticate the user signed-in on the Windows machine
 - Call a web API (in this case, the [Microsoft Graph](https://graph.microsoft.com))
@@ -35,7 +41,7 @@ The application obtains tokens through Integrated Windows Authentication (Kerber
 To run this sample, you'll need:
 
 - Working installation of Java and Maven
-- An Azure Active Directory (Azure AD) tenant. For more information on how to get an Azure AD tenant, see [How to get an Azure AD tenant](https://azure.microsoft.com/en-us/documentation/articles/active-directory-howto-tenant/)
+- An Azure Active Directory (Azure AD) tenant. For more information on how to get an Azure AD tenant, see [How to get an Azure AD tenant](https://azure.microsoft.com/documentation/articles/active-directory-howto-tenant/)
 - One or more user accounts in your Azure AD tenant.
 
 ### Step 1: Download Java (8 and above) for your platform
@@ -47,13 +53,8 @@ To successfully use this sample, you need a working installation of [Java](https
 From your shell or command line:
 
 ```Shell
--`git clone https://github.com/Azure-Samples/ms-identity-java-desktop.git`
-```
-
-Go to `Integrated-Windows-Auth-Flow` folder
-
-```Shell
-- cd `Integrated-Windows-Auth-Flow`
+git clone https://github.com/Azure-Samples/ms-identity-java-desktop.git
+cd "Integrated-Windows-Auth-Flow"
 ```
 
 or download and extract the repository .zip file.
@@ -161,19 +162,13 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 
 For more information, see MSAL4J [conceptual documentation](https://github.com/AzureAD/microsoft-authentication-library-for-java/wiki).
 
-For more information on how add additional permissions to use Microsoft Graph notifications, see [API permissions](https://docs.microsoft.com/en-us/graph/notifications-integration-app-registration#api-permissions)
-
-For more information,
-
+- [Integrated Windows Authentication](https://github.com/AzureAD/microsoft-authentication-library-for-java/wiki/Integrated-Windows-Authentication)
 - [Quickstart: Configure a client application to access web APIs](https://docs.microsoft.com/azure/active-directory/develop/quickstart-configure-app-access-web-apis)
-- [Understanding Azure AD application consent experiences](https://docs.microsoft.com/en-us/azure/active-directory/develop/application-consent-experience)
-- [Understand user and admin consent](https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-convert-app-to-be-multi-tenant#understand-user-and-admin-consent)
-- [Application and service principal objects in Azure Active Directory](https://docs.microsoft.com/en-us/azure/active-directory/develop/app-objects-and-service-principals)
+- [Understanding Azure AD application consent experiences](https://docs.microsoft.com/azure/active-directory/develop/application-consent-experience)
+- [Understand user and admin consent](https://docs.microsoft.com/azure/active-directory/develop/howto-convert-app-to-be-multi-tenant#understand-user-and-admin-consent)
 - About how OAuth 2.0 protocols work in this scenario and other scenarios, see [Authentication Scenarios for Azure AD](http://go.microsoft.com/fwlink/?LinkId=394414).
 
-- [Integrated Windows Authentication](https://github.com/AzureAD/microsoft-authentication-library-for-java/wiki/Integrated-Windows-Authentication)
-- [Customizing Token cache serialization](https://docs.microsoft.com/en-us/azure/active-directory/develop/msal-java-token-cache-serialization) (was not done in this sample, but you might want to add a serialized cache)
+- [Customizing Token cache serialization](https://docs.microsoft.com/azure/active-directory/develop/msal-java-token-cache-serialization) (was not done in this sample, but you might want to add a serialized cache)
 
 For more information about the Microsoft identity platform endpoint see:
-
 - [https://aka.ms/aadv2](https://aka.ms/aadv2)
