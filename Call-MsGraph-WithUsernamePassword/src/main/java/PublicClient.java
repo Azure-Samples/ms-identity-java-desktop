@@ -21,7 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import com.microsoft.aad.msal4j.AuthenticationResult;
+import com.microsoft.aad.msal4j.IAuthenticationResult;
 import com.microsoft.aad.msal4j.PublicClientApplication;
 import com.microsoft.aad.msal4j.UserNamePasswordParameters;
 import com.nimbusds.oauth2.sdk.http.HTTPResponse;
@@ -50,7 +50,7 @@ public class PublicClient {
             String password = br.readLine();
 
             // Request access token from AAD
-            AuthenticationResult result = getAccessToken(userName, password);
+            IAuthenticationResult result = getAccessToken(userName, password);
 
             // Get user info from Microsoft Graph
             String userInfo = getUserInfoFromGraph(result.accessToken());
@@ -58,7 +58,7 @@ public class PublicClient {
         }
     }
 
-    private static AuthenticationResult getAccessToken(String userName, String password)
+    private static IAuthenticationResult getAccessToken(String userName, String password)
             throws MalformedURLException, InterruptedException, ExecutionException {
 
             PublicClientApplication pca = PublicClientApplication.builder(
@@ -71,7 +71,7 @@ public class PublicClient {
                     userName,
                     password.toCharArray()).build();
 
-            AuthenticationResult result = pca.acquireToken(parameters).get();
+            IAuthenticationResult result = pca.acquireToken(parameters).get();
             return result;
         }
 
