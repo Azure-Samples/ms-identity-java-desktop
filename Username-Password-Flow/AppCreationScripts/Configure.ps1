@@ -173,7 +173,7 @@ Function ConfigureApplications
    Write-Host "Granted."
 
    # Update config file for 'app'
-   $configFile = $pwd.Path + "\..\src\main\java\PublicClient.java"
+   $configFile = $pwd.Path + "\..\src\main\java\UsernamePasswordFlow.java"
    Write-Host "Updating the sample code ($configFile)"
    $dictionary = @{ "private final static String APP_ID" = $appAadApplication.AppId };
    UpdateTextFile -configFilePath $configFile -dictionary $dictionary

@@ -104,7 +104,7 @@ As a first step you'll need to:
    - In the **Name** section, enter a meaningful application name that will be displayed to users of the app, for example `Java-Console-Application`.
    - In the **Supported account types** section, select **Accounts in any organizational directory**.
 1. Select **Register** to create the application.
-1. In the app's registration **Overview** page, find the **Application (client) ID** value and record it for later. You'll need it to configure the APP_ID value in `PublicClient.Java` later.
+1. In the app's registration **Overview** page, find the **Application (client) ID** value and record it for later. You'll need it to configure the APP_ID value in `UsernamePasswordFlow.Java` later.
 1. In the Application menu blade, select **Manifest**, and:
    - In the manifest editor, set the `allowPublicClient` property to **true**
    - Select **Save** in the bar above the manifest editor.
@@ -122,14 +122,14 @@ In the steps below, ClientID is the same as Application ID or AppId.
 
 #### Configure the app project
 
-1. Open the `src\main\java\PublicClient.java` file.
+1. Open the `src\main\java\UsernamePasswordFlow.java` file.
 1. Find the line `private final static String APP_ID` and replace the existing value with the **Application ID (clientId)** of the `Java-Console-Application` application copied from the Azure portal.
 
 ### Step 5: Run the sample
 
 From your shell or command line:
 
-- `$ mvn package`
+- `$ mvn clean compile assembly:single`
 
 This will generate a `public-client-msal4j-sample-jar-with-dependencies.jar` file in your /targets directory. Run this using your Java executable like below:
 
@@ -144,9 +144,10 @@ Your command line interface should prompt you for the username and password and 
 The code to acquire a token is located entirely in the `src\main\java\PublicClient.Java` file. The public client application is created using the **MSAL build pattern**, by passing the Application Id and the Authority.
 
 ```java
-            PublicClientApplication pca = PublicClientApplication.builder(
-                    APP_ID).
-                    authority(AUTHORITY).build();
+            PublicClientApplication pca =
+                    PublicClientApplication
+                        .builder(APP_ID)
+                        .authority(AUTHORITY).build();
 
 ```
 
@@ -154,11 +155,11 @@ A call to acquire the token is made using the public client application, by crea
 
 ```java
 
-            String scopes = "User.Read";
-            UserNamePasswordParameters parameters = UserNamePasswordParameters.builder(
-                    Collections.singleton(scopes),
-                    userName,
-                    password.toCharArray()).build();
+            Set<String> scopes = Collections.singleton("User.Read");
+            UserNamePasswordParameters parameters =
+                    UserNamePasswordParameters
+                            .builder(scopes, userName, password.toCharArray())
+                            .build();
 ```
 
 The result is passed back to the main() function, where then the access token is extracted and passed to the function making the call to Microsoft Graph me endpoint ("https://graph.microsoft.com/v1.0/me")
