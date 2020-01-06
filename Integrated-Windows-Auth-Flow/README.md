@@ -12,7 +12,7 @@ products:
   - Java
   - office-ms-graph
 description: "This sample demonstrates how to use MSAL4J to sign-in users using windows Integrated Auth (WIA) in apps that run on a domain joined or AAD joined Windows machine."
-urlFragment: Integrated-Windows-Auth- Flow
+urlFragment: Integrated-Windows-Auth-Flow
 ---
 
 # Invoking an API protected by Microsoft identity platform with users signed-in with Integrated Windows Authentication, on a Windows domain joined or AAD joined machine
@@ -100,7 +100,7 @@ As a first step you'll need to:
 
 In the steps below, "ClientID" is the same as "Application ID" or "AppId".
 
-Open the `IntegratedWindowsAuthFlow`class to configure the project.
+Open the `IntegratedWindowsAuthFlow` class to configure the project.
 
 #### Configure the client project
 
@@ -112,11 +112,11 @@ Open the `IntegratedWindowsAuthFlow`class to configure the project.
 
 From your shell or command line:
 
-- `$ mvn package`
+  - `$ mvn clean compile assembly:single`
 
-This will generate a `IWA-flow-jar-with-dependencies.jar` file in your /targets directory. Run this using your Java executable like below:
+This will generate a `public-client-integrated-windows-authentication-sample-1.0.0.jar` file in your /targets directory. Run this using your Java executable like below:
 
-- `$ java -jar IWA-flow-jar-with-dependencies.jar`
+- `$ java -jar public-client-integrated-windows-authentication-sample-1.0.0.jar`
 
 ### You're done
 
@@ -124,10 +124,11 @@ Your command line interface should then access the Microsoft Graph API to retrie
 
 ## About the code
 
-The code to acquire a token is located entirely in the `src\main\java\IntegratedWindowsAuthFlow.Java` file. The public client application is created using the **MSAL build pattern**, by passing the Application Id and the Authority.
+The code to acquire a token is located entirely in the `src\main\java\IntegratedWindowsAuthFlow.Java` file.
 
 ```Java
-PublicClientApplication app = PublicClientApplication.builder(PUBLIC_CLIENT_ID)
+PublicClientApplication app = PublicClientApplication
+                .builder(PUBLIC_CLIENT_ID)
                 .authority(AUTHORITY_ORGANIZATION)
                 .build();
 ```
@@ -137,8 +138,8 @@ A call to acquire the token is made using the public client application, by crea
 ```Java
 
             IntegratedWindowsAuthenticationParameters parameters =
-                IntegratedWindowsAuthenticationParameters.builder(
-                        Collections.singleton(GRAPH_DEFAULT_SCOPE), USER_NAME)
+                IntegratedWindowsAuthenticationParameters
+                        .builder(Collections.singleton(GRAPH_DEFAULT_SCOPE), USER_NAME)
                         .build();
 ```
 
