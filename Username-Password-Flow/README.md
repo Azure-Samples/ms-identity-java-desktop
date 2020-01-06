@@ -71,7 +71,7 @@ From your shell or command line:
 
 ```Shell
 git clone https://github.com/Azure-Samples/ms-identity-java-desktop.git
-cd "Call-MsGraph-WithUsernamePassword"
+cd "Username-Password-Flow"
 ```
 
 ### Step 3:  Register the sample with your Azure Active Directory tenant
