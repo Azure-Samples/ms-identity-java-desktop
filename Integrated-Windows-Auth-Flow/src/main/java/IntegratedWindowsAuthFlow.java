@@ -60,7 +60,7 @@ public class IntegratedWindowsAuthFlow {
                                 .builder(SCOPE, USER_NAME)
                                 .build();
 
-                // Try to acquire a using Integrated Windows Authentication (IWA). You will need to generate a Kerberos ticket.
+                // Try to acquire a token using Integrated Windows Authentication (IWA). You will need to generate a Kerberos ticket.
                 // If successful, you should see the token and account information printed out to console
                 result = pca.acquireToken(parameters).join();
             } else {
