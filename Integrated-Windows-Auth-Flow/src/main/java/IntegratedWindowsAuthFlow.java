@@ -20,13 +20,13 @@ public class IntegratedWindowsAuthFlow {
 
     public static void main(String args[]) throws Exception {
 
-        IAuthenticationResult result = acquireTokenIwa();
+        IAuthenticationResult result = acquireTokenIntegratedWindowsAuth();
         System.out.println("Access token: " + result.accessToken());
         System.out.println("Id token: " + result.idToken());
         System.out.println("Account username: " + result.account().username());
     }
 
-    private static IAuthenticationResult acquireTokenIwa() throws Exception {
+    private static IAuthenticationResult acquireTokenIntegratedWindowsAuth() throws Exception {
 
         // Load token cache from file and initialize token cache aspect. The token cache will have
         // dummy data, so the acquireTokenSilently call will fail.
@@ -60,9 +60,8 @@ public class IntegratedWindowsAuthFlow {
                                 .builder(SCOPE, USER_NAME)
                                 .build();
 
-                // Try to acquire a IWA. You will need to generate a Kerberos ticket.
-                // If successful, you should see the token and account information printed out to
-                // console
+                // Try to acquire a using Integrated Windows Authentication (IWA). You will need to generate a Kerberos ticket.
+                // If successful, you should see the token and account information printed out to console
                 result = pca.acquireToken(parameters).join();
             } else {
                 // Handle other exceptions accordingly
