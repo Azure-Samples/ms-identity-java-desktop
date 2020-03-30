@@ -89,7 +89,7 @@ If you want to use this automation, read the instructions in [App Creation Scrip
 
 As a first step you'll need to:
 
-1. Sign in to the [Azure portal](https://portal.azure.com)using either a work or school account or a personal Microsoft account.
+1. Sign in to the [Azure portal](https://portal.azure.com) using either a work or school account or a personal Microsoft account.
 1. If your account is present in more than one Azure AD tenant, select your profile at the top right corner in the menu on top of the page, and then **switch directory**.
    Change your portal session to the desired Azure AD tenant.
 1. In the portal menu, click on **All services**, and choose **Azure Active Directory**.
@@ -123,7 +123,8 @@ In the steps below, ClientID is the same as Application ID or AppId.
 #### Configure the app project
 
 1. Open the `src\main\java\UsernamePasswordFlow.java` file.
-1. Find the line `private final static String APP_ID` and replace the existing value with the **Application ID (clientId)** of the `Java-Console-Application` application copied from the Azure portal.
+    - Replace the value of `private final static String CLIENT_ID` with the **Application ID (clientId)** of the `Java-Console-Application` application you created.
+    - Replace the values of `private final static String USER_NAME` and `private final static String USER_PASSWORD` with the username and password of the user you wish to authenticate in this sample.
 
 ### Step 5: Run the sample
 
