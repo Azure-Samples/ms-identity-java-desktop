@@ -122,9 +122,9 @@ In the steps below, ClientID is the same as Application ID or AppId.
 
 #### Configure the app project
 
-1. Open the `src\main\java\UsernamePasswordFlow.java` file.
-    - Replace the value of `private final static String CLIENT_ID` with the **Application ID (clientId)** of the `Java-Console-Application` application you created.
-    - Replace the values of `private final static String USER_NAME` and `private final static String USER_PASSWORD` with the username and password of the user you wish to authenticate in this sample.
+1. Open the `src\main\resources\application.properties` file
+1. Set the `CLIENT_ID` property to the client ID value you recorded earlier
+1. Set the `USER_NAME` and `USER_PASSWORD` properties to the username and password of the user you wish to authenticate in this sample
 
 ### Step 5: Run the sample
 

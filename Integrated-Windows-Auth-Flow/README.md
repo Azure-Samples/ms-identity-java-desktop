@@ -98,15 +98,9 @@ As a first step you'll need to:
 
 ### Step 4:  Configure the sample to use your Azure AD tenant
 
-In the steps below, "ClientID" is the same as "Application ID" or "AppId".
-
-Open the `IntegratedWindowsAuthFlow` class to configure the project.
-
-#### Configure the client project
-
-1. Open the `src\main\java\IntegratedWindowsAuthFlow` class.
-1. Find the line where `PUBLIC_CLIENT_ID` is set and replace the existing value with the `Application ID (clientId)` of the `iwa-console` application copied from the Azure portal.
-1. Find the line where `USER_NAME` is set and replace the existing value with your `Windows signed-in user ID`.
+1. Open the `src\main\resources\application.properties` file
+1. Set the `CLIENT_ID` property to the client ID value you recorded earlier
+1. Set the `USER_NAME` property to your `Windows signed-in user ID`
 
 ### Step 5: Run the sample
 

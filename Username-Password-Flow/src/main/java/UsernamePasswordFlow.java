@@ -8,16 +8,12 @@ import com.microsoft.aad.msal4j.PublicClientApplication;
 import com.microsoft.aad.msal4j.SilentParameters;
 import com.microsoft.aad.msal4j.UserNamePasswordParameters;
 
+import java.io.FileInputStream;
 import java.util.Collections;
+import java.util.Properties;
 import java.util.Set;
 
 public class UsernamePasswordFlow {
-
-    private final static String CLIENT_ID = "";
-    private final static String AUTHORITY = "https://login.microsoftonline.com/organizations/";
-    private final static Set<String> SCOPE = Collections.singleton("");
-    private final static String USER_NAME = "";
-    private final static String USER_PASSWORD = "";
 
     public static void main(String args[]) throws Exception {
 
@@ -28,13 +24,20 @@ public class UsernamePasswordFlow {
     }
 
     private static IAuthenticationResult acquireTokenUsernamePassword() throws Exception {
+        //Load properties file and set properties used throughout the sample
+        Properties properties = new Properties();
+        properties.load(new FileInputStream(Thread.currentThread().getContextClassLoader().getResource("").getPath() + "application.properties"));
+        String authority = properties.getProperty("AUTHORITY");
+        String accounts = properties.getProperty("ACCOUNT");
+        String clientId = properties.getProperty("CLIENT_ID");
+        String userName = properties.getProperty("USER_NAME");
+        String password = properties.getProperty("USER_PASSWORD");
+        Set<String> scope = Collections.singleton("");
 
-        // Load token cache from file and initialize token cache aspect. The token cache will have
-        // dummy data, so the acquireTokenSilently call will fail.
-        TokenCacheAspect tokenCacheAspect = new TokenCacheAspect("sample_cache.json");
+        TokenCacheAspect tokenCacheAspect = new TokenCacheAspect(accounts);
 
-        PublicClientApplication pca = PublicClientApplication.builder(CLIENT_ID)
-                .authority(AUTHORITY)
+        PublicClientApplication pca = PublicClientApplication.builder(clientId)
+                .authority(authority)
                 .setTokenCacheAccessAspect(tokenCacheAspect)
                 .build();
 
@@ -47,7 +50,7 @@ public class UsernamePasswordFlow {
         try {
             SilentParameters silentParameters =
                     SilentParameters
-                            .builder(SCOPE, account)
+                            .builder(scope, account)
                             .build();
             // try to acquire token silently. This call will fail since the token cache
             // does not have any data for the user you are trying to acquire a token for
@@ -57,7 +60,7 @@ public class UsernamePasswordFlow {
 
                 UserNamePasswordParameters parameters =
                         UserNamePasswordParameters
-                                .builder(SCOPE, USER_NAME, USER_PASSWORD.toCharArray())
+                                .builder(scope, userName, password.toCharArray())
                                 .build();
                 // Try to acquire a token via username/password. If successful, you should see
                 // the token and account information printed out to console
