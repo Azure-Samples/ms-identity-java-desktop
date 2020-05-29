@@ -28,11 +28,19 @@ public class UsernamePasswordFlow {
         Properties properties = new Properties();
         properties.load(new FileInputStream(Thread.currentThread().getContextClassLoader().getResource("").getPath() + "application.properties"));
         String authority = properties.getProperty("AUTHORITY");
-        String accounts = properties.getProperty("ACCOUNT");
+        Set<String> scope = Collections.singleton(properties.getProperty("SCOPE"));
         String clientId = properties.getProperty("CLIENT_ID");
         String userName = properties.getProperty("USER_NAME");
         String password = properties.getProperty("USER_PASSWORD");
-        Set<String> scope = Collections.singleton("");
+
+        String accounts = "{\"Account\": "
+                + "{\"uid.utid-login.windows.net-contoso\": "
+                + "{\"username\": \"John Doe\","
+                + "\"local_account_id\": \"object1234\","
+                + "\"realm\": \"contoso\","
+                + "\"environment\": \"login.windows.net\","
+                + "\"home_account_id\": \"uid.utid\","
+                + "\"authority_type\": \"MSSTS\"}}}";
 
         TokenCacheAspect tokenCacheAspect = new TokenCacheAspect(accounts);
 
