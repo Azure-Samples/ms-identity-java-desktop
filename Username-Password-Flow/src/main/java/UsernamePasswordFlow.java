@@ -115,7 +115,9 @@ public class UsernamePasswordFlow {
         clientId = properties.getProperty("CLIENT_ID");
         username = properties.getProperty("USER_NAME");
         password = properties.getProperty("USER_PASSWORD");
-        //Junk account used to pre-fill cache
+        // Junk account added to initial cache when the application is created, to better demonstrate searching the cache.
+        // In a real application, accounts would be automatically added to the cache when acquiring tokens, as can be
+        // seen in the set returned from pca.getAccounts() after the first run of acquireTokenUsernamePassword()
         accounts = "{\"Account\": "
                 + "{\"uid.utid-login.windows.net-contoso\": "
                 + "{\"username\": \"John Doe\","
