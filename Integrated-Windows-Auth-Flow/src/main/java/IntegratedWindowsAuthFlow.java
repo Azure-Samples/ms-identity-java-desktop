@@ -20,17 +20,13 @@ public class IntegratedWindowsAuthFlow {
     private static Set<String> scope;
     private static String clientId;
     private static String username;
-    private static String accounts;
 
     public static void main(String args[]) throws Exception {
 
         setUpSampleData();
 
-        TokenCacheAspect tokenCacheAspect = new TokenCacheAspect(accounts);
-
         PublicClientApplication pca = PublicClientApplication.builder(clientId)
                 .authority(authority)
-                .setTokenCacheAccessAspect(tokenCacheAspect)
                 .build();
 
         Set<IAccount> accountsInCache = pca.getAccounts().join();
@@ -43,6 +39,8 @@ public class IntegratedWindowsAuthFlow {
         System.out.println("Id token:         " + result.idToken());
         System.out.println();
 
+        //Get list of accounts from the application's token cache, and search them for the configured username
+        //getAccounts() will be empty on this first call, as accounts are added to the cache when acquiring a token
         accountsInCache = pca.getAccounts().join();
         account = getAccountByUsername(accountsInCache, username);
 
@@ -94,9 +92,14 @@ public class IntegratedWindowsAuthFlow {
      * or return null if no accounts in the set match
      */
     private static IAccount getAccountByUsername(Set<IAccount> accounts, String username) {
-        for (IAccount account : accounts) {
-            if (account.username().equals(username)) {
-                return account;
+        if (accounts.isEmpty()) {
+            System.out.println("==No accounts in cache");
+        } else {
+            System.out.println("==Accounts in cache: " + accounts.size());
+            for (IAccount account : accounts) {
+                if (account.username().equals(username)) {
+                    return account;
+                }
             }
         }
         return null;
@@ -114,16 +117,5 @@ public class IntegratedWindowsAuthFlow {
         scope = Collections.singleton(properties.getProperty("SCOPE"));
         clientId = properties.getProperty("CLIENT_ID");
         username = properties.getProperty("USER_NAME");
-        // Junk account added to initial cache when the application is created, to better demonstrate searching the cache.
-        // In a real application, accounts would be automatically added to the cache when acquiring tokens, as can be
-        // seen in the set returned from pca.getAccounts() after the first run of acquireTokenIntegratedWindowsAuth()
-        accounts = "{\"Account\": "
-                + "{\"uid.utid-login.windows.net-contoso\": "
-                + "{\"username\": \"John Doe\","
-                + "\"local_account_id\": \"object1234\","
-                + "\"realm\": \"contoso\","
-                + "\"environment\": \"login.windows.net\","
-                + "\"home_account_id\": \"uid.utid\","
-                + "\"authority_type\": \"MSSTS\"}}}";
     }
 }
