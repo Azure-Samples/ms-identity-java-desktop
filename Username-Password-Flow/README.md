@@ -122,9 +122,9 @@ In the steps below, ClientID is the same as Application ID or AppId.
 
 #### Configure the app project
 
-1. Open the `src\main\java\UsernamePasswordFlow.java` file.
-    - Replace the value of `private final static String CLIENT_ID` with the **Application ID (clientId)** of the `Java-Console-Application` application you created.
-    - Replace the values of `private final static String USER_NAME` and `private final static String USER_PASSWORD` with the username and password of the user you wish to authenticate in this sample.
+1. Open the `src\main\resources\application.properties` file
+1. Set the `CLIENT_ID` property to the client ID value you recorded earlier
+1. Set the `USER_NAME` and `USER_PASSWORD` properties to the username and password of the user you wish to authenticate in this sample
 
 ### Step 5: Run the sample
 
@@ -138,36 +138,44 @@ This will generate a `public-client-msal4j-sample-jar-with-dependencies.jar` fil
 
 ### You're done
 
-Your command line interface should prompt you for the username and password and then access the Microsoft Graph API to retrieve your user information.
+Simply run the .jar file as described in step 5 or run the main method of `UsernamePasswordFlow.java` in your IDE to watch the sample acquire a token for the user you configured.
 
 ### About the code
 
-The code to acquire a token is located entirely in the `src\main\java\PublicClient.Java` file. The public client application is created using the **MSAL build pattern**, by passing the Application Id and the Authority.
+The code to acquire a token is located entirely in `src\main\java\UsernamePasswordFlow.Java`. The public client application is created using the **MSAL build pattern**, by passing the Application ID, an authority, and an implementation of the token cache interface.
 
 ```java
-            PublicClientApplication pca =
-                    PublicClientApplication
-                        .builder(APP_ID)
-                        .authority(AUTHORITY).build();
-
-```
-
-A call to acquire the token is made using the public client application, by creating an `UserNamePasswordParameters` object. The builder takes in scope (in this case `User.Read`), and the username and password of the user.
-
-```java
-
-            Set<String> scopes = Collections.singleton("User.Read");
-            UserNamePasswordParameters parameters =
-                    UserNamePasswordParameters
-                            .builder(scopes, userName, password.toCharArray())
+            PublicClientApplication pca = PublicClientApplication.builder(clientId)
+                            .authority(authority)
+                            .setTokenCacheAccessAspect(tokenCacheAspect)
                             .build();
 ```
 
-The result is passed back to the main() function, where then the access token is extracted and passed to the function making the call to Microsoft Graph me endpoint ("https://graph.microsoft.com/v1.0/me")
+A call to acquire the token is first made using the public client application, by creating a `SilentParameters` object to send to the application's `acquireTokenSilently()` method. The `SilentParameters` builder takes in an account (taken from the token cache) and a set of scopes. `acquireTokenSilently()` retrieves that account's token from the cache if one exists and isn't expired. If the token is expired, an attempt to retireve a new token is made if the cache contains a refresh token. 
 
-The access token is then used as a bearer token to call the Microsoft Graph API (line 68)
+If there is no token in the cache for the given account or some issue occurs when trying to use a refresh token, the code falls back to the username/password flow described below
 
-`conn.setRequestProperty("Authorization", "Bearer " + accessToken);`
+```java
+            SilentParameters silentParameters =
+                    SilentParameters
+                            .builder(scope)
+                            .account(account)
+                            .build();
+
+            result = pca.acquireTokenSilently(silentParameters).join();
+
+```
+
+A call to acquire the token is first made using the public client application, by creating a `UserNamePasswordParameters` object to send to the application's `acquireToken()` method. The `UserNamePasswordParameters` builder takes in the username and password of a user, and a set of scopes. `acquireToken()` attempts to acquires a token from the authority configured in the application via the username/password authentication. 
+
+```java
+            UserNamePasswordParameters parameters =
+                    UserNamePasswordParameters
+                            .builder(scope, username, password.toCharArray())
+                            .build();
+
+            result = pca.acquireToken(parameters).join();
+```
 
 ## Community Help and Support
 

@@ -98,15 +98,9 @@ As a first step you'll need to:
 
 ### Step 4:  Configure the sample to use your Azure AD tenant
 
-In the steps below, "ClientID" is the same as "Application ID" or "AppId".
-
-Open the `IntegratedWindowsAuthFlow` class to configure the project.
-
-#### Configure the client project
-
-1. Open the `src\main\java\IntegratedWindowsAuthFlow` class.
-1. Find the line where `PUBLIC_CLIENT_ID` is set and replace the existing value with the `Application ID (clientId)` of the `iwa-console` application copied from the Azure portal.
-1. Find the line where `USER_NAME` is set and replace the existing value with your `Windows signed-in user ID`.
+1. Open the `src\main\resources\application.properties` file
+1. Set the `CLIENT_ID` property to the client ID value you recorded earlier
+1. Set the `USER_NAME` property to your `Windows signed-in user ID`
 
 ### Step 5: Run the sample
 
@@ -120,27 +114,45 @@ This will generate a `public-client-integrated-windows-authentication-sample-1.0
 
 ### You're done
 
-Your command line interface should then access the Microsoft Graph API to retrieve your user information.
+### You're done
 
-## About the code
+Simply run the .jar file as described in step 5 or run the main method of `IntegratedWindowsAuthFlow.java` in your IDE to watch the sample acquire a token for the user you configured.
 
-The code to acquire a token is located entirely in the `src\main\java\IntegratedWindowsAuthFlow.Java` file.
+### About the code
 
-```Java
-PublicClientApplication app = PublicClientApplication
-                .builder(PUBLIC_CLIENT_ID)
-                .authority(AUTHORITY_ORGANIZATION)
-                .build();
+The code to acquire a token is located entirely in `src\main\java\IntegratedWindowsAuthFlow.Java`. The public client application is created using the **MSAL build pattern**, by passing the Application ID, an authority, and an implementation of the token cache interface.
+
+```java
+            PublicClientApplication pca = PublicClientApplication.builder(clientId)
+                            .authority(authority)
+                            .setTokenCacheAccessAspect(tokenCacheAspect)
+                            .build();
 ```
 
-A call to acquire the token is made using the public client application, by creating an `IntegratedWindowsAuthenticationParameters` object. The builder takes in scope, and the username of the user.
+A call to acquire the token is first made using the public client application, by creating a `SilentParameters` object to send to the application's `acquireTokenSilently()` method. The `SilentParameters` builder takes in an account (taken from the token cache) and a set of scopes. `acquireTokenSilently()` retrieves that account's token from the cache if one exists and isn't expired. If the token is expired, an attempt to retireve a new token is made if the cache contains a refresh token. 
 
-```Java
+If there is no token in the cache for the given account or some issue occurs when trying to use a refresh token, the code falls back to the username/password flow described below
 
+```java
+            SilentParameters silentParameters =
+                    SilentParameters
+                            .builder(scope)
+                            .account(account)
+                            .build();
+
+            result = pca.acquireTokenSilently(silentParameters).join();
+
+```
+
+A call to acquire the token is first made using the public client application, by creating an `IntegratedWindowsAuthenticationParameters` object to send to the application's `acquireToken()` method. The `IntegratedWindowsAuthenticationParameters` builder takes in the username of a user and a set of scopes. `acquireToken()` attempts to acquires a token from the authority configured in the application via the  Integrated Windows Authentication flow. 
+
+```java
             IntegratedWindowsAuthenticationParameters parameters =
-                IntegratedWindowsAuthenticationParameters
-                        .builder(Collections.singleton(GRAPH_DEFAULT_SCOPE), USER_NAME)
-                        .build();
+                    IntegratedWindowsAuthenticationParameters
+                            .builder(scope, username)
+                            .build();
+
+            result = pca.acquireToken(parameters).join();
 ```
 
 ## Community Help and Support
