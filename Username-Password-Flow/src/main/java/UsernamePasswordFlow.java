@@ -8,7 +8,6 @@ import com.microsoft.aad.msal4j.PublicClientApplication;
 import com.microsoft.aad.msal4j.SilentParameters;
 import com.microsoft.aad.msal4j.UserNamePasswordParameters;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Properties;
@@ -112,7 +111,7 @@ public class UsernamePasswordFlow {
     private static void setUpSampleData() throws IOException {
         // Load properties file and set properties used throughout the sample
         Properties properties = new Properties();
-        properties.load(new FileInputStream(Thread.currentThread().getContextClassLoader().getResource("").getPath() + "application.properties"));
+        properties.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("application.properties"));
         authority = properties.getProperty("AUTHORITY");
         scope = Collections.singleton(properties.getProperty("SCOPE"));
         clientId = properties.getProperty("CLIENT_ID");
